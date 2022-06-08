@@ -5,8 +5,13 @@
  * Date: june-05-2022
 */
 
+#ifndef P6502_H
+#define P6502_H
+
+/* Includes */
 #include "../include/memory.h"
 
+/* Defines */
 typedef unsigned char BYTE;
 typedef unsigned short TWO_BYTES;
 
@@ -19,29 +24,36 @@ typedef struct {
     BYTE STACK_P;       // Stack Pointer
     BYTE DATA_BUS;      // Data Bus (Write or read memory)
     TWO_BYTES ADDR_BUS; // Memory Address
-
 } P_6502;
 
+/* Constructor */
+void proc_ctor(P_6502 *proc);
+
+/* Methods */
+void opcode_decode(MEMORY *ram, TWO_BYTES ram_address, BYTE opcode);
+
 /* Instruction Headers */
-void ADC();
-void AND();
+void ADC(P_6502 *proc);
+void AND(P_6502 *proc);
 void DEC(MEMORY *ram, TWO_BYTES address);
-void DEX();
-void DEY();
+void DEX(P_6502 *proc);
+void DEY(P_6502 *proc);
 void INC(MEMORY *ram, TWO_BYTES address);
-void INX();
-void INY();
-void JMP(TWO_BYTES address);
-void LDA(MEMORY *ram, TWO_BYTES address);
-void LDX(MEMORY *ram, TWO_BYTES address);
-void LDY(MEMORY *ram, TWO_BYTES address);
+void INX(P_6502 *proc);
+void INY(P_6502 *proc);
+void JMP(P_6502 *proc, TWO_BYTES address);
+void LDA(P_6502 *proc, MEMORY *ram, TWO_BYTES address);
+void LDX(P_6502 *proc ,MEMORY *ram, TWO_BYTES address);
+void LDY(P_6502 *proc ,MEMORY *ram, TWO_BYTES address);
 void NOP();
-void ORA(MEMORY *ram, TWO_BYTES address);
-void STA(MEMORY *ram, TWO_BYTES address);
-void STX(MEMORY *ram, TWO_BYTES address);
-void STY(MEMORY *ram, TWO_BYTES address);
-void STZ(MEMORY *ram, TWO_BYTES address);
-void TSX();
-void TXA();
-void TXS();
-void TYA();
+void ORA(P_6502 *proc, MEMORY *ram, TWO_BYTES address);
+void STA(P_6502 *proc, MEMORY *ram, TWO_BYTES address);
+void STX(P_6502 *proc, MEMORY *ram, TWO_BYTES address);
+void STY(P_6502 *proc, MEMORY *ram, TWO_BYTES address);
+void STZ(P_6502 *proc, MEMORY *ram, TWO_BYTES address);
+void TSX(P_6502 *proc);
+void TXA(P_6502 *proc);
+void TXS(P_6502 *proc);
+void TYA(P_6502 *proc);
+
+#endif /* P6502_H */
