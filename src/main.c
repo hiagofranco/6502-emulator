@@ -13,15 +13,20 @@
 /* Main Function */
 int main()
 {
-    // Testing memory
-    init_memory();
+    MEMORY ram;
+
+    memory_ctor(&ram);
     
-    write_data(0x0000, 0xff);
-    write_data(0xffff, 0xfd);
+    write_data(&ram, 0x0000, 0xff);
+    write_data(&ram, 0xffff, 0xfd);
     
-    printf("%x\n", read_data(0x0000));
-    printf("%x\n", read_data(0xffff));
-    printf("%x\n", read_data(0xfdfd));
+    read_data(&ram, 0x0000);
+    read_data(&ram, 0xffff);
+    read_data(&ram, 0xfdfd);
+
+    print_memory(&ram);
+
+    memory_dtor(&ram);
     
     return 0;
 } /* End of main */

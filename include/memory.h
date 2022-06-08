@@ -5,29 +5,30 @@
  * Date: june-05-2022
 */
 
+/* Includes */
 #ifndef MEMORY_H
 #define MEMORY_H
 
-// 65536 bytes of addressable memory (16 bits)
-#define MEM_CAP 65536
+/* Defines */
+#define MEM_CAP 0xffff //65536 bytes of addressable memory (16 bits)
 
 typedef unsigned char BYTE;
 typedef unsigned short TWO_BYTES;
 
+/* Variable */
 typedef struct {
     BYTE space[MEM_CAP];
 } MEMORY;
 
-// Initialize memory with zeros
-void init_memory();
+/* Methods */
+void memory_ctor(MEMORY *mem);
 
-// Write data to memeory Address
-void write_data(TWO_BYTES address, BYTE data);
+void write_data(MEMORY *mem, TWO_BYTES address, BYTE data);
 
-// Read data from memory
-BYTE read_data(TWO_BYTES address);
+BYTE read_data(MEMORY *mem, TWO_BYTES address);
 
-// Print all memory addresses
-void print_memory();
+void print_memory(MEMORY *mem);
+
+void memory_dtor(MEMORY *mem);
 
 #endif /* MEMORY_H */

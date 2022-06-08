@@ -22,7 +22,6 @@ void init_proc()
     proc.ADDR_BUS   = 0;
 }
 
-
 void opcode_decode(MEMORY *ram, TWO_BYTES ram_address, BYTE opcode)
 {
     switch (opcode)

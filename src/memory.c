@@ -8,52 +8,51 @@
 #include <stdio.h>
 #include "../include/memory.h"
 
-MEMORY ram;
-
-/* Initialize memory with zeros */
-void init_memory()
+/* Constructor: Initialize memory with zeros */
+void memory_ctor(MEMORY *mem)
 {
     int i;
-    for (i = 0; i < MEM_CAP; i++)
-        ram.space[i] = 0;
-
+    for (i = 0; i < MEM_CAP; i++) mem->space[i] = 0;
 }
 
-/* Write data to memory address */
-void write_data(TWO_BYTES address, BYTE data)
+/* Public Methods */
+
+void write_data(MEMORY *mem, TWO_BYTES address, BYTE data)
 {
-    // Check if address is invalid
     if ( (address < 0) || (address > (MEM_CAP - 1)) )
         return;
-    // Check if data is invalid
     else if ( (data < 0) || (data > 255) )
         return;
     else
-        ram.space[address] = data;
-
+        mem->space[address] = data;
 }
 
-/* Read data from memory */
-BYTE read_data(TWO_BYTES address)
+BYTE read_data(MEMORY *mem, TWO_BYTES address)
 {
-    // Return zero if address is invalid
     if ( (address < 0) || (address > (MEM_CAP - 1)) )
         return 0;
     else
-        return ram.space[address];
-
+        return mem->space[address];
 }
 
-/* Print all memory addresses */
-void print_memory()
+void print_memory(MEMORY *mem)
 {
     printf("-------------\n");
     printf("RAM MEMORY DATA\n");
     printf("-------------\n");
-    
     int i;
-    for (i = 0; i < MEM_CAP; i++)
-        printf("%.4x %.2x\n", i, ram.space[i]);
+    for (i = 0; i < MEM_CAP - 6; i++)
+    {
+        printf("|%.4x %.2x ",  i,   mem->space[i]);
+        printf("%.4x %.2x ",   i+1, mem->space[i+1]);
+        printf("%.4x %.2x ",   i+2, mem->space[i+2]);
+        printf("%.4x %.2x ",   i+3, mem->space[i+3]);
+        printf("%.4x %.2x ",   i+4, mem->space[i+4]);
+        printf("%.4x %.2x ",   i+5, mem->space[i+5]);
+        printf("%.4x %.2x|\n", i+6, mem->space[i+6]);
+    }
     printf("-------------\n");
-
 }
+
+/* Destructor: does nothing */
+void memory_dtor(MEMORY *mem) { }
