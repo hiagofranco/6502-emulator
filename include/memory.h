@@ -10,7 +10,7 @@
 #define MEMORY_H
 
 /* Defines */
-#define MEM_CAP 0xffff //65536 bytes of addressable memory (16 bits)
+#define MEM_CAP 65536 //65536 bytes of addressable memory (16 bits)
 
 typedef unsigned char BYTE;
 typedef unsigned short TWO_BYTES;

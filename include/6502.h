@@ -30,7 +30,7 @@ typedef struct {
 void proc_ctor(P_6502 *proc);
 
 /* Methods */
-void opcode_decode(MEMORY *ram, TWO_BYTES ram_address, BYTE opcode);
+void opcode_decode(P_6502 *proc, MEMORY *ram, TWO_BYTES ram_address, BYTE opcode);
 
 /* Instruction Headers */
 void ADC(P_6502 *proc);

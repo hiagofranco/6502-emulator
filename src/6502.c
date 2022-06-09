@@ -6,7 +6,8 @@
 */
 
 #include "../include/6502.h"
-#include <memory.h>
+#include "../include/memory.h"
+#include "../include/opcodes.h"
 
 /* Initialize processor */
 void proc_ctor(P_6502 *proc)
@@ -21,45 +22,49 @@ void proc_ctor(P_6502 *proc)
 }
 
 /* Methods */
-void opcode_decode(MEMORY *ram, TWO_BYTES ram_address, BYTE opcode)
+void opcode_decode(P_6502 *proc, MEMORY *ram, TWO_BYTES ram_address, BYTE opcode)
 {
     switch (opcode)
     {
 
-        case 0x6d:
-            ADC();
+        case OPCODE_ADC:
+            ADC(proc);
             break;
         
-        case 0x2d:
-            AND();
+        case OPCODE_AND:
+            AND(proc);
             break;
 
-        case 0xce:
+        case OPCODE_DEC:
             DEC(ram, ram_address);
             break;
 
-        case 0xca:
-            DEX();
+        case OPCODE_DEX:
+            DEX(proc);
             break;
         
-        case 0x88:
-            DEY();
+        case OPCODE_DEY:
+            DEY(proc);
             break;
 
-        case 0xee:
+        case OPCODE_INC:
             INC(ram, ram_address);
             break;
 
-        case 0xe8:
-            INX();
+        case OPCODE_INX:
+            INX(proc);
             break;
         
-        case 0xc8:
-            INY();
+        case OPCODE_INY:
+            INY(proc);
+            break;
+
+        case OPCODE_NOP:
+            NOP(proc);
             break;
         
         default:
-            NOP();
+            NOP(proc);
             break;
     }
 }
@@ -67,17 +72,17 @@ void opcode_decode(MEMORY *ram, TWO_BYTES ram_address, BYTE opcode)
 /* Instructions */
 void ADC(P_6502 *proc)
 {
-    proc->ACC = (proc->REG_X + proc->REG_Y) & 0xff;
+    proc->ACC = (proc->REG_X + proc->REG_Y) & 0xFF;
 }
 
 void AND(P_6502 *proc)
 {
-    proc->ACC = (proc->REG_X & proc->REG_Y) & 0xff;
+    proc->ACC = (proc->REG_X & proc->REG_Y) & 0xFF;
 }
 
 void DEC(MEMORY *ram, TWO_BYTES address)
 {
-    BYTE res = (ram->space[address] - 1) & 0xff;
+    BYTE res = (ram->space[address] - 1) & 0xFF;
     if ( res < 0 )
         ram->space[address] = 0x00;
     else
@@ -86,7 +91,7 @@ void DEC(MEMORY *ram, TWO_BYTES address)
 
 void DEX(P_6502 *proc)
 {
-    BYTE res = (proc->REG_X - 1) & 0xff;
+    BYTE res = (proc->REG_X - 1) & 0xFF;
     if ( res < 0 )
         proc->REG_X = 0x00;
     else
@@ -95,7 +100,7 @@ void DEX(P_6502 *proc)
 
 void DEY(P_6502 *proc)
 {
-    BYTE res = (proc->REG_Y - 1) & 0xff;
+    BYTE res = (proc->REG_Y - 1) & 0xFF;
     if ( res < 0 )
         proc->REG_Y = 0x00;
     else
@@ -104,17 +109,17 @@ void DEY(P_6502 *proc)
 
 void INC(MEMORY *ram, TWO_BYTES address)
 {
-    ram->space[address] = (ram->space[address] + 1) & 0xff;
+    ram->space[address] = (ram->space[address] + 1) & 0xFF;
 }
 
 void INX(P_6502 *proc)
 {
-    proc->REG_X = (proc->REG_X + 1) & 0xff;
+    proc->REG_X = (proc->REG_X + 1) & 0xFF;
 }
 
 void INY(P_6502 *proc)
 {
-    proc->REG_Y = (proc->REG_Y + 1) & 0xff;
+    proc->REG_Y = (proc->REG_Y + 1) & 0xFF;
 }
 
 void JMP(P_6502 *proc, TWO_BYTES address)
@@ -141,7 +146,7 @@ void NOP() {};
 
 void ORA(P_6502 *proc, MEMORY *ram, TWO_BYTES address)
 {
-    proc->ACC = (proc->ACC | ram->space[address]) & 0xff;
+    proc->ACC = (proc->ACC | ram->space[address]) & 0xFF;
 }
 
 void STA(P_6502 *proc, MEMORY *ram, TWO_BYTES address)

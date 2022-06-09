@@ -21,7 +21,7 @@ void write_data(MEMORY *mem, TWO_BYTES address, BYTE data)
 {
     if ( (address < 0) || (address > (MEM_CAP - 1)) )
         return;
-    else if ( (data < 0) || (data > 255) )
+    else if ( (data < 0) || (data > 0xFF) )
         return;
     else
         mem->space[address] = data;
@@ -40,17 +40,36 @@ void print_memory(MEMORY *mem)
     printf("-------------\n");
     printf("RAM MEMORY DATA\n");
     printf("-------------\n");
+    
+    printf("Start -> | 0x0000 0x%.2X | 0x0001 0x%.2X | 0x0002 0x%.2X | 0x0003 0x%.2X |\n",  mem->space[0],
+                                                                                            mem->space[1],
+                                                                                            mem->space[2],
+                                                                                            mem->space[3]);
+    
     int i;
-    for (i = 0; i < MEM_CAP - 6; i++)
+    char flag_print = 1; // Flag to check if * char was printed or not, this will
+                         // print the whole memory in a better way.
+
+    for (i = 4; i < MEM_CAP; i += 4)
     {
-        printf("|%.4x %.2x ",  i,   mem->space[i]);
-        printf("%.4x %.2x ",   i+1, mem->space[i+1]);
-        printf("%.4x %.2x ",   i+2, mem->space[i+2]);
-        printf("%.4x %.2x ",   i+3, mem->space[i+3]);
-        printf("%.4x %.2x ",   i+4, mem->space[i+4]);
-        printf("%.4x %.2x ",   i+5, mem->space[i+5]);
-        printf("%.4x %.2x|\n", i+6, mem->space[i+6]);
+        if (mem->space[i] || mem->space[i+1] || mem->space[i+2] || mem->space[i+3])
+        {
+            printf("         | 0x%.4X 0x%.2X | 0x%.4X 0x%.2X | 0x%.4X 0x%.2X | 0x%.4X 0x%.2X |\n",  i,   mem->space[i],
+                                                                                                    i+1, mem->space[i+1],
+                                                                                                    i+2, mem->space[i+2],
+                                                                                                    i+3, mem->space[i+3]);
+            flag_print = 1;
+        }
+        else if (flag_print)
+        {
+            printf("         | *\n");
+            flag_print = 0;
+        }
     }
+    printf("End   -> | 0xFFFC 0x%.2X | 0xFFFD 0x%.2X | 0xFFFE 0x%.2X | 0xFFFF 0x%.2X |\n",  mem->space[0xFFFC],
+                                                                                            mem->space[0xFFFD],
+                                                                                            mem->space[0xFFFE],
+                                                                                            mem->space[0xFFFF]);
     printf("-------------\n");
 }
 
