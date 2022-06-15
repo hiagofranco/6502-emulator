@@ -6,7 +6,7 @@
 */
 
 #include <stdio.h>
-#include "../include/memory.h"
+#include "memory.h"
 
 /* Constructor: Initialize memory with zeros */
 void memory_ctor(MEMORY *mem)

@@ -6,8 +6,8 @@
 */
 
 #include <stdio.h>
-#include "../include/6502.h"
-#include "../include/memory.h"
+#include "6502.h"
+#include "memory.h"
 
 /* Main Function */
 int main()

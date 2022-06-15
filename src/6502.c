@@ -5,9 +5,9 @@
  * Date: june-05-2022
 */
 
-#include "../include/6502.h"
-#include "../include/memory.h"
-#include "../include/opcodes.h"
+#include "6502.h"
+#include "memory.h"
+#include "opcodes.h"
 
 /* Initialize processor */
 void proc_ctor(P_6502 *proc)

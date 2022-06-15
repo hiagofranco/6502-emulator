@@ -9,7 +9,7 @@
 #define P6502_H
 
 /* Includes */
-#include "../include/memory.h"
+#include "memory.h"
 
 /* Defines */
 typedef unsigned char BYTE;
